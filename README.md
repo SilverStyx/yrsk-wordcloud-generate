@@ -3,7 +3,7 @@
 本项目为ヨルシカ/n-buna歌词词云生成器，可以将夜鹿/n-buna目前为止发行的歌曲歌词进行词频整理，并根据词频情况生成词云图
 
 ## 成品示例（加工后）
-https://github.com/SilverStyx/yrsk-wordcloud-generate/blob/main/example_1.png
+![image](https://github.com/SilverStyx/yrsk-wordcloud-generate/blob/main/example_1.png)
 
 ## 安装及运行指南
 1. 安装python3.8.3
