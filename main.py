@@ -1,4 +1,5 @@
 # -*- coding:utf-8 -*-
+# ◂Ⓘ▸ ヨルシカ/n-buna词云生成器
 import requests
 import re
 from wordcloud import WordCloud
@@ -36,56 +37,55 @@ def extract_unicode_block(string):
 
 # 停用词
 def remove_stop_words(f):
-	stop_words = ['n-buna', 'あ', '作词', '作曲', '编曲', 'Arranger', '录音', '混音', '人声', 'Vocal', '弦乐', 'Keyboard', '键盘', '编辑', '助理', 'Assistants', 'Mixing', 'Editing', 'Recording', '音乐', '制作', 'Producer', '发行', 'produced', 'and', 'distributed']
+	stop_words = ['n-buna', '作词', '作曲', '编曲', 'Arranger', '录音', '混音', '人声']
 	for stop_word in stop_words:
 		f = f.replace(stop_word, '')
 	f = extract_unicode_block(f)
+	# 过滤后重新拼接字符串
 	str = ''
 	for i in f:
 		str += i + ' '
 
 	return str
 
-# 生成词云
+# 生成夜鹿词云
 def create_word_cloud(f):
 	print('开始生成夜鹿词云')
 	f = remove_stop_words(f)
 	cut_text = " ".join(jieba.cut(f,cut_all=False, HMM=True))
-	img = Image.open(r"./buna1副本.jpg")
+	# 背景图片path，按自己选择的配置
+	img = Image.open(r"./yrsk.jpg")
 	img_array = np.array(img)
 	wc = WordCloud(
 		background_color='white',
 		mask=img_array,
+		# 字体可以自行更换
 		font_path="./fot.ttf",
 		max_words=50,
 		max_font_size=300,
-		width=1332,
-		height=1332,
+		width=800,
+		height=800,
 		mode='RGBA',
 		#random_state='30#',
     )
 	print(cut_text)
 	wordcloud = wc.generate(cut_text)
-	# 写词云图片
+	# 写图片
 	wordcloud.to_file("wordcloud.png")
-	# 显示词云文件
+	# 显示文件
 	plt.imshow(wordcloud)
 	plt.axis("off")
 	plt.show()
 
 
-# 得到指定歌手页面 热门前50的歌曲ID，歌曲名
 def get_songs(artist_id):
 	page_url = 'https://music.163.com/artist?id=' + artist_id
-	# 获取网页HTML
 	res = requests.request('GET', page_url, headers=headers)
-	# 用XPath解析 前50首热门歌曲
 	html = etree.HTML(res.text)
 	href_xpath = "//*[@id='hotsong-list']//a/@href"
 	name_xpath = "//*[@id='hotsong-list']//a/text()"
 	hrefs = html.xpath(href_xpath)
 	names = html.xpath(name_xpath)
-	# 设置热门歌曲的ID，歌曲名称
 	song_ids = []
 	song_names = []
 	for href, name in zip(hrefs, names):
@@ -94,7 +94,7 @@ def get_songs(artist_id):
 		print(href, '  ', name)
 	return song_ids, song_names
 
-# 设置歌手ID ヨルシカid为12390232 n-bunaid为981185
+
 artist_id = '981185'
 music_id = '1870469768'
 [song_ids, song_names] = get_songs(artist_id)
