@@ -4,7 +4,7 @@
 
 ## 成品示例（加工后）
 ![image](https://github.com/SilverStyx/yrsk-wordcloud-generate/blob/main/example_1.png)
-
+![image](https://github.com/SilverStyx/yrsk-wordcloud-generate/blob/main/example_2.png)
 ## 安装及运行指南
 1. 安装python3.8.3
 2. 安装requirements.txt依赖
